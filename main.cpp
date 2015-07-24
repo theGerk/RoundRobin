@@ -3,15 +3,19 @@
 #include <vector>
 #include <fstream>
 
-//defined constants
-#define PROGRAM_NAME "Jacksan Wail"
-
-//global variables
-bool ReadFromCin = true;
-
 //class declarations:
 class tournament;
 class player;
+class flexible_input;
+class flexible_output;
+
+//global constants
+#define PROGRAM_NAME "Jacksan Wail"
+
+
+//global variables
+flexible_input fin;
+flexible_output fout;
 
 //class definitions:
 class tournament {
@@ -24,10 +28,6 @@ class tournament {
 		//gives new game(s)
 		//not started
 		void start_game();
-		
-		//adds a player to the player list
-		//complete
-		void add_player(const std::string &name);
 		
 		//saves the standings to a file
 		//not started
@@ -43,7 +43,7 @@ class tournament {
 		void end_game(std::string player);
 		
 		//adds players until exited
-		//in progress
+		//complete
 		void registar();
 		
 	public:
@@ -99,6 +99,41 @@ class player {
 		std::string get_name() const;
 };
 
+class flexible_input {
+	private:
+		static std::ifstream feed;
+		
+		//checks for end of file and will close feed
+		//not started
+		void check_for_close();
+		
+	public:
+		//sets feed to a file
+		//not started
+		setFeed(const std::string &name);
+		
+		//overloading << operator, takes in input
+		//not started
+		friend flexible_input operator <<(flexible_input &in_stream, bool &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, signed char &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, unsigned char &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, signed short &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, unsigned short &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, signed int &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, unsigned int &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, float &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, signed long &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, unsigned long &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, double &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, signed long long &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, unsigned long long &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, long double &foo);
+		friend flexible_input operator <<(flexible_input &in_stream, std::string &foo);
+		
+		//getline equivalent
+		//not started
+		friend flexible_input operator <(flexible_input &in_stream, std::string &foo);
+};
 
 //function declarations:
 //opens a saved, unfinished tournament
@@ -130,6 +165,11 @@ void load_tournament(std::vector <tournament> &list);
 void read_names(const std::vector <tournament> &input);	//complete
 void read_names(const std::vector <player> &input);		//complete
 
+//starts reading from a file
+//not started
+void startRead();
+
+
 //main function:
 int main()
 {
@@ -150,7 +190,7 @@ int main()
 			load - loads a tournament
 			enter - enters a loaded tournament
 			list - lists tournaments loaded
-			read (not yet implemented) - reads from file as if user input
+			read - reads from file as if user input
 		*/
 		
 		//find what the command is
@@ -166,6 +206,8 @@ int main()
 			load_tournament(tour);
 		else if(input == "list")
 			read_names(tour);
+		else if(input == "read")
+			startRead();
 		else
 			std::cout << "not a command, please use \"help\" to get list of commands\n";
 	}while(true);
@@ -180,12 +222,6 @@ int main()
 
 
 //function definitions:
-void tournament::add_player(const std::string &new_player)
-{
-	player a(new_player);
-	tournament.player_list.push_back(a);
-}
-
 void tournament::registar()
 {
 	std::string input;
@@ -196,7 +232,24 @@ void tournament::registar()
 		else if(input == "exit")
 			break;
 		else
-			add_player(input);
+		{
+			bool found = false;
+			for(int i = 0; i < player_list.length(); i++)
+			{
+				if(player_list[i].get_name() == name)
+				{
+					found = true;
+					std::cout << "That name is already in use.\n";
+					break;
+				}
+			}
+			if(!found)
+			{
+				tournament newOne(name);
+				vec.push_back(newOne);
+				break;
+			}
+		}
 	}while(true);
 }
 
@@ -209,6 +262,199 @@ player::player(const std::string &input)
 {
 	name = input;
 }
+
+flexible_input operator <<(flexible_input &in_stream, bool &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, signed char &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, unsigned char &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, signed short &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, unsigned short &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, signed int &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, unsigned int &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, float &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, signed long &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, unsigned long &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, double &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, signed long long &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, unsigned long long &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, long double &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <<(flexible_input &in_stream, std::string &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			in_stream.feed << foo;
+		else
+			std::cin << foo;
+	else
+		std::cin << foo;
+	return in_stream;
+}
+
+flexible_input operator <(flexible_input &in_stream, std::string &foo);
+{
+	if(in_stream.feed.is_open())
+		if(in_stream.check_for_close())
+			getline(foo, in_stream.feed);
+		else
+			getline(foo, std::cin);
+	else
+		getline(foo, std::cin);
+	return in_stream;
+}
+
 
 unsigned int games_played()
 {
