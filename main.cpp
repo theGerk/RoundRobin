@@ -1,4 +1,4 @@
--#include <iostream>
+#include <iostream>
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -19,6 +19,7 @@ class tournament {
 		std::vector <player> player_list;			//players
 		std::vector <unsigned int> players_out_of_game;
 		std::string name;							//tournament name
+		unsigned int rounds;
 		
 		//gives new game(s)
 		//not started
@@ -26,11 +27,11 @@ class tournament {
 		
 		//adds a player to the player list
 		//complete
-		void add_player(std::string name);
+		void add_player(const std::string &name);
 		
 		//saves the standings to a file
 		//not started
-		void save(std::ofstream);
+		void save(std::ofstream &save_file);
 		
 		//prints the standings to terminal
 		//not started
@@ -41,10 +42,15 @@ class tournament {
 		void end_game(unsigned int player);
 		void end_game(std::string player);
 		
+		//adds players until exited
+		//in progress
+		void registar();
+		
 	public:
 
 		//constructor
 		//not started
+		tournament(std::ifstream file);
 		tournament(std::string tournament_name);
 		tournament(std::string tournament_name, std::vector <player> players);
 		
@@ -54,14 +60,43 @@ class tournament {
 		
 		//returns name
 		//complete
-		std::string get_name();
+		std::string get_name() const;
 };
 
 class player {
 	private:
 		std::vector <unsigned int> games_played;	//opponents played by the player
-		unsigned int points = 0;					//points the player has
+		std::vector <unsigned int> points;			//number of points the player has scored in each match
 		std::string name;							//player's name
+		
+	public:
+		//starts game
+		//not started
+		void start_game(unsigned int opponent);
+		
+		//adds points, ending game
+		//not started
+		unsigned int end_game(unsigned int points);
+		
+		//constructor
+		//complete
+		player(const std::string &input);
+		
+		//number of games played
+		//complete
+		unsigned int games_played() const;
+		
+		//returns number of points
+		//not started
+		unsigned int points() const;
+		
+		//returns the tie-break score
+		//not started
+		unsigned int tie_break(const std::vector <player> &player_table) const;
+		
+		//gets the name
+		//not started
+		std::string get_name() const;
 };
 
 
@@ -75,14 +110,25 @@ tournament load_tournament(std::string fileLocation);
 //not started
 void main_help();
 void name_new_tournament_help();
+void enter_tournament_help();
+void tournament_registar_help();
 
 //creates a new tournament
 //complete
-tournament add_tournament(const std::vector <tournament> &list);
+void add_tournament(std::vector <tournament> &list);
 
 //enters a tournament
 //in progress
 void enter_tournament(std::vector <tournament> &list);
+
+//load's a tournament from external file
+//not started
+void load_tournament(std::vector <tournament> &list);
+
+//reads the names of objects
+//complete
+void read_names(const std::vector <tournament> &input);	//complete
+void read_names(const std::vector <player> &input);		//complete
 
 //main function:
 int main()
@@ -91,11 +137,10 @@ int main()
 	std::cout << "Welcome to " << PROGRAM_NAME << ".\nPlease enter the command for what you would like to do.\nTyping \"help\" at any time will give you a list of commands and instructions.\n";
 	std::string input;
 	std::vector <tournament> tour;
-	std::ifstream in = std::cin;
 	
 	//where the program runs
 	do {
-		in >> input;
+		std::cin >> input;
 		
 		//commands:
 		/*
@@ -104,6 +149,7 @@ int main()
 			exit - ends program
 			load - loads a tournament
 			enter - enters a loaded tournament
+			list - lists tournaments loaded
 			read (not yet implemented) - reads from file as if user input
 		*/
 		
@@ -111,38 +157,62 @@ int main()
 		if(input == "help")
 			main_help();
 		else if(input == "new")
-			tour.push_back(add_tournament(tour));
+			add_tournament(tour);
 		else if(input == "exit")
 			break;
 		else if(input == "enter")
 			enter_tournament(tour);
 		else if(input == "load")
-			tour.push_back(load_tournament());
+			load_tournament(tour);
 		else if(input == "list")
-			readout(tour);
+			read_names(tour);
 		else
 			std::cout << "not a command, please use \"help\" to get list of commands\n";
 	}while(true);
 	
-	//may want to put in something so that
+	//may want to put in something so that it auto-saves for when reopened 
 	
 	
 	//goodbye
+	std::cout << "goodbye ;)";
 	return 0;
 }
 
 
 //function definitions:
-void tournament::add_player(std::string new_player)
+void tournament::add_player(const std::string &new_player)
 {
-	player a;
-	a.name = new_player;
+	player a(new_player);
 	tournament.player_list.push_back(a);
+}
+
+void tournament::registar()
+{
+	std::string input;
+	do{
+		getline(input, std::cin);
+		if(input == "help")
+			tournament_registar_help();
+		else if(input == "exit")
+			break;
+		else
+			add_player(input);
+	}while(true);
 }
 
 std::string tournament::get_name()
 {
 	return name;
+}
+
+player::player(const std::string &input)
+{
+	name = input;
+}
+
+unsigned int games_played()
+{
+	return games_played.length();
 }
 
 void add_tournament(std::vector <tournament> &vec)
@@ -152,32 +222,84 @@ void add_tournament(std::vector <tournament> &vec)
 		getline(name, std::cin);
 		if(name == "help")
 			name_new_tournament_help();
+		else if(name == "exit")
+			break;
 		else
 		{
-			bool exit = true;
+			bool found = false;
 			for(int i = 0; i < vec.length(); i++)
 			{
 				if(vec[i].get_name() == name)
 				{
-					exit = false;
+					found = true;
+					std::cout << "That name is already in use.\n";
 					break;
 				}
 			}
-			if(exit)
-				break;
-			else
+			if(!found)
 			{
-				std::cout << "That name is already in use.\n";
+				tournament newOne(name);
+				vec.push_back(newOne);
+				break;
 			}
 		}
 	}while(true);
-	
-	
-	tournament jim(name);
-	return jim;
 }
 
 void enter_tournament(std::vector <tournament> &list)
 {
-	std::string input;
+	if(list.length() == 0)
+	{
+		std::cout << "There is no tournament to enter.\n";
+	}
+	else if(list.length() == 1)
+	{
+		list[1].main();
+	}
+	else
+	{
+		unsigned int index;
+		std::string input;
+		do{
+			getline(input, std::cin);
+			if(input == "help")
+				enter_tournament_help();
+			else if(input == "exit")
+				return;
+			else{
+				bool found = false;
+				for(int i = 0; i < list.length; i++)
+				{
+					if(list[i].get_name() == input)
+					{
+						index = i;
+						found = true;
+						break;
+					}
+				}
+				if(found)
+					break;
+				else
+					std::cout << "The tournament \"" << input << "\" does not exist.";
+			}
+		}while(true);
+		list[index].main();
+	}
 }
+
+void read_names(const std::vector <tournament> &input)
+{
+	std::cout << "There are " << input.length() << " tournaments loaded.\n";
+	for(int i = 0; i < input.length(); i++)
+		std::cout << input[i].get_name() << std::endl;
+	std::cout << std::endl;
+}
+
+void read_names(const std::vector <player> &input)
+{
+	std::cout << "There are " << input.length() << " tournaments loaded.\n";
+	for(int i = 0; i < input.length(); i++)
+		std::cout << input[i].get_name() << std::endl;
+	std::cout << std::endl;
+}
+
