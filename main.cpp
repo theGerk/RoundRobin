@@ -24,7 +24,6 @@ class tournament {
 		//not started
 		void start_game();
 		
-	public:
 		//adds a player to the player list
 		//complete
 		void add_player(std::string name);
@@ -41,6 +40,8 @@ class tournament {
 		//not started
 		void end_game(unsigned int player);
 		void end_game(std::string player);
+		
+	public:
 
 		//constructor
 		//not started
@@ -50,6 +51,10 @@ class tournament {
 		//main function for tournament (menu)
 		//not started
 		void main();
+		
+		//returns name
+		//complete
+		std::string get_name();
 };
 
 class player {
@@ -73,8 +78,11 @@ void name_new_tournament_help();
 
 //creates a new tournament
 //complete
-tournament add_tournament();					//complete
-tournament add_tournament(std::string input);	//complete
+tournament add_tournament(const std::vector <tournament> &list);
+
+//enters a tournament
+//in progress
+void enter_tournament(std::vector <tournament> &list);
 
 //main function:
 int main()
@@ -103,13 +111,15 @@ int main()
 		if(input == "help")
 			main_help();
 		else if(input == "new")
-			tour.push_back(add_tournament());
+			tour.push_back(add_tournament(tour));
 		else if(input == "exit")
 			break;
 		else if(input == "enter")
-			enter_tournament(&tour);
+			enter_tournament(tour);
 		else if(input == "load")
 			tour.push_back(load_tournament());
+		else if(input == "list")
+			readout(tour);
 		else
 			std::cout << "not a command, please use \"help\" to get list of commands\n";
 	}while(true);
@@ -130,21 +140,44 @@ void tournament::add_player(std::string new_player)
 	tournament.player_list.push_back(a);
 }
 
-tournament add_tournament()
+std::string tournament::get_name()
+{
+	return name;
+}
+
+void add_tournament(std::vector <tournament> &vec)
 {
 	std::string name;
-	getline(name, std::cin);
-	while(name == "help")
-	{
-		name_new_tournament_help();
+	do{
 		getline(name, std::cin);
-	}
-	return add_tournament(name);
+		if(name == "help")
+			name_new_tournament_help();
+		else
+		{
+			bool exit = true;
+			for(int i = 0; i < vec.length(); i++)
+			{
+				if(vec[i].get_name() == name)
+				{
+					exit = false;
+					break;
+				}
+			}
+			if(exit)
+				break;
+			else
+			{
+				std::cout << "That name is already in use.\n";
+			}
+		}
+	}while(true);
+	
+	
+	tournament jim(name);
+	return jim;
 }
 
-tournament add_tournament(std::string input)
+void enter_tournament(std::vector <tournament> &list)
 {
-	tournament output(input);
-	return output;
+	std::string input;
 }
-
