@@ -114,25 +114,25 @@ class flexible_input {
 		
 		//overloading << operator, takes in input
 		//not started
-		friend flexible_input operator <<(flexible_input &in_stream, bool &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, signed char &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, unsigned char &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, signed short &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, unsigned short &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, signed int &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, unsigned int &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, float &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, signed long &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, unsigned long &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, double &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, signed long long &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, unsigned long long &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, long double &foo);
-		friend flexible_input operator <<(flexible_input &in_stream, std::string &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, bool &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, signed char &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, unsigned char &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, signed short &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, unsigned short &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, signed int &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, unsigned int &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, float &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, signed long &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, unsigned long &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, double &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, signed long long &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, unsigned long long &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, long double &foo);
+		friend flexible_input operator >>(flexible_input &in_stream, std::string &foo);
 		
 		//getline equivalent
 		//not started
-		friend flexible_input operator <(flexible_input &in_stream, std::string &foo);
+		friend flexible_input operator >(flexible_input &in_stream, std::string &foo);
 };
 
 //function declarations:
@@ -263,187 +263,187 @@ player::player(const std::string &input)
 	name = input;
 }
 
-flexible_input operator <<(flexible_input &in_stream, bool &foo);
+flexible_input operator >>(flexible_input &in_stream, bool &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, signed char &foo);
+flexible_input operator >>(flexible_input &in_stream, signed char &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, unsigned char &foo);
+flexible_input operator >>(flexible_input &in_stream, unsigned char &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, signed short &foo);
+flexible_input operator >>(flexible_input &in_stream, signed short &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, unsigned short &foo);
+flexible_input operator >>(flexible_input &in_stream, unsigned short &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, signed int &foo);
+flexible_input operator >>(flexible_input &in_stream, signed int &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, unsigned int &foo);
+flexible_input operator >>(flexible_input &in_stream, unsigned int &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, float &foo);
+flexible_input operator >>(flexible_input &in_stream, float &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, signed long &foo);
+flexible_input operator >>(flexible_input &in_stream, signed long &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, unsigned long &foo);
+flexible_input operator >>(flexible_input &in_stream, unsigned long &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, double &foo);
+flexible_input operator >>(flexible_input &in_stream, double &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, signed long long &foo);
+flexible_input operator >>(flexible_input &in_stream, signed long long &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, unsigned long long &foo);
+flexible_input operator >>(flexible_input &in_stream, unsigned long long &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, long double &foo);
+flexible_input operator >>(flexible_input &in_stream, long double &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <<(flexible_input &in_stream, std::string &foo);
+flexible_input operator >>(flexible_input &in_stream, std::string &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
-			in_stream.feed << foo;
+			in_stream.feed >> foo;
 		else
-			std::cin << foo;
+			std::cin >> foo;
 	else
-		std::cin << foo;
+		std::cin >> foo;
 	return in_stream;
 }
 
-flexible_input operator <(flexible_input &in_stream, std::string &foo);
+flexible_input operator >(flexible_input &in_stream, std::string &foo);
 {
 	if(in_stream.feed.is_open())
 		if(in_stream.check_for_close())
