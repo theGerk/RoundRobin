@@ -5,7 +5,7 @@
 
 //class declarations:
 class tournament;
-class player;
+class player;			//complete
 class match;			//complete
 class flexible_input;	//complete
 
@@ -51,9 +51,9 @@ class tournament {
 	public:
 
 		//constructor
-		//not started
-		tournament(std::string tournament_name);
-		tournament(std::string tournament_name, std::vector <player> players);
+		//complete
+		tournament(std::string tournament_name, unsigned int rds);									//complete
+		tournament(std::string tournament_name, unsigned int rds, std::vector <player> players);	//complete
 		
 		//main function for tournament (menu)
 		//in progress
@@ -77,11 +77,11 @@ class player {
 		
 	public:
 		//starts game
-		//not started
+		//complete
 		void start_game(player* opponent);
 		
 		//adds points, ending game
-		//not started
+		//complete
 		unsigned int end_game(const unsigned int points, const unsigned int gamesPlayed);
 		
 		//constructor
@@ -279,6 +279,15 @@ void tournament::registar(){
 		}
 	}while(true);
 }
+tournament::tournament(std::string tournament_name, unsigned int rds){
+	name = tournament_name;
+	rounds = rds;
+}
+tournament::tournament(std::string tournament_name, unsigned int rds, std::vector <player> players){
+	name = tournament_name;
+	rounds = rds;
+	player_list = players;
+}
 void tournament::main(){
 	std::string input;
 	do{
@@ -309,6 +318,17 @@ void tournament::main(){
 std::string tournament::get_name(){
 	return name;
 }
+void player::start_game(player* opponent){
+	current = opponent;
+	opponent->current = &this;
+}
+void player::end_game(const unsigned int points, const unsigned int gamesPlayed){
+	match temp(this, current, points, gamesPlayed);
+	games_played.push_back(temp);
+	
+	current->current = NULL;
+	current = NULL;
+}
 player::player(const std::string &input){
 	name = input;
 }
@@ -330,8 +350,8 @@ unsigned int player::tie_break(){
 std::string player::get_name(){
 	return name;
 }
-match::match(const player &me, player &other, const unsigned int pts, const unsigned int gamesPlayed){
-	opponent = &other;
+match::match(const player &me, player* other, const unsigned int pts, const unsigned int gamesPlayed){
+	opponent = other;
 	points = pts;
 	
 	//do stuff for other player
@@ -339,7 +359,7 @@ match::match(const player &me, player &other, const unsigned int pts, const unsi
 	temp.points = gamesPlayed - pts;
 	temp.player = &me;
 	
-	other.games_played.push_back(temp);
+	other->games_played.push_back(temp);
 }
 unsigned int match::getPoints(){
 	return points;
@@ -531,7 +551,7 @@ flexible_input operator >(flexible_input &in_stream, std::string &foo){
 void add_tournament(std::vector <tournament> &vec){
 	std::string name;
 	do{
-		name > fin;
+		fin > name;
 		if(name == "help")
 			name_new_tournament_help();
 		else if(name == "exit")
@@ -552,7 +572,12 @@ void add_tournament(std::vector <tournament> &vec){
 			}
 			if(!found)
 			{
-				tournament newOne(name);
+				//get number of rounds
+				unsigned int rds;
+				do{
+					fin >> rds;
+				}while(rds > 0)
+				tournament newOne(name, rds);
 				vec.push_back(newOne);
 				break;
 			}
